@@ -3,11 +3,14 @@ import {useState, useEffect} from "react"
 import axios from "axios"
 import styled from "styled-components"
 
-export default function SigIn(){
+export default function SigUp(){
 
     const navigate = useNavigate();
+    const [nome, setNome] = useState("")
     const [email, setEmail] = useState("")
     const [senha, setSenha] = useState("")
+    const [senha2, setSenha2] = useState("")
+
 
     function handleSubmit(e){
         e.preventDefault();
@@ -20,11 +23,13 @@ export default function SigIn(){
                 <h1>My Wallet</h1>
             </Logo>
             <Form onSubmit={handleSubmit}>
+                <input type="text" placeholder="Nome" required value={nome} onChange={(e)=> setNome(e.target.value)}></input>
                 <input type="email" placeholder="E-mail" required value={email} onChange={(e)=> setEmail(e.target.value)}></input>
                 <input type="password" placeholder="Senha" required value={senha} onChange={(e)=> setSenha(e.target.value)}></input>
-                <button type="submit"><p>Entrar</p></button>
+                <input type="password" placeholder="Confirme a senha" value={senha2} onChange={(e)=> setSenha2(e.target.value)}></input>
+                <button type="submit"><p>Cadastrar</p></button>
             </Form>
-            <StyledLink to={"/sign-up"}>Primeira vez? Cadastre-se!</StyledLink>
+            <StyledLink to={"/"}>Já tem uma conta? Entre agora!</StyledLink>
         </Container>
     )
 }
@@ -66,7 +71,7 @@ const Form = styled.form`
     flex-direction: column;
     align-items: center;
     width: 100%;
-    height: 180px;
+    height: 320px;
     justify-content: space-between;
     font-family: 'Raleway', sans-serif;
     input{
