@@ -3,15 +3,29 @@ import {useState, useEffect} from "react"
 import axios from "axios"
 import styled from "styled-components"
 
-export default function SigIn(){
 
+export default function SigIn({setToken}){
     const navigate = useNavigate();
+
     const [email, setEmail] = useState("")
-    const [senha, setSenha] = useState("")
+    const [password, setPassword] = useState("")
 
     function handleSubmit(e){
         e.preventDefault();
-        navigate("/main")
+
+        const URL = "http://localhost:5000/sign-in"
+        const promisse = axios.post(URL, {
+            email, password
+        })
+
+        promisse.then(response => {
+            setToken(response.data);
+            navigate("/main")
+        });
+
+        promisse.catch(error => {
+            alert(error.response.data)
+        })
     }
 
     return(
@@ -21,8 +35,8 @@ export default function SigIn(){
             </Logo>
             <Form onSubmit={handleSubmit}>
                 <input type="email" placeholder="E-mail" required value={email} onChange={(e)=> setEmail(e.target.value)}></input>
-                <input type="password" placeholder="Senha" required value={senha} onChange={(e)=> setSenha(e.target.value)}></input>
-                <button type="submit"><p>Entrar</p></button>
+                <input type="password" placeholder="Senha" required value={password} onChange={(e)=> setPassword(e.target.value)}></input>
+                <button type="submit" onClick={handleSubmit}><p>Entrar</p></button>
             </Form>
             <StyledLink to={"/sign-up"}>Primeira vez? Cadastre-se!</StyledLink>
         </Container>
@@ -70,7 +84,7 @@ const Form = styled.form`
     justify-content: space-between;
     font-family: 'Raleway', sans-serif;
     input{
-        width: 330px;
+        width: 87%;
         height: 58px;
         border: none;
         border-radius: 5px;
@@ -87,7 +101,7 @@ const Form = styled.form`
         font-weight: 500;
     }
     button{
-        width: 330px;
+        width: 87%;
         height: 46px;
         border: none;
         border-radius: 5px;
